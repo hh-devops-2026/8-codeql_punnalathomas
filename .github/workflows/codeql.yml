@@ -12,7 +12,7 @@ jobs:
     # Define permissions for the job
     # Define language to be analyzed
     name: CodeQL Analysis
-    runs-on: ubuntu:latest
+    runs-on: ubuntu-latest
 
     permissions:
       security-events: write
