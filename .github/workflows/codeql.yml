@@ -12,6 +12,27 @@ jobs:
     # Define permissions for the job
     # Define language to be analyzed
     name: CodeQL Analysis
+    runs-on: ubuntu:latest
+
+    permissions:
+      security-events: write
+      contents: read
+      actions: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Define language
+        uses: github/codeql-action/init@v4
+        with:
+          languages: go
+
+      - name: build
+        uses: github/codeql-action/autobuild@v4
+
+      - name: analysis
+        uses: github/codeql-action/analyze@v4
 
   docker:
     name: Docker Build & Run
@@ -19,3 +40,12 @@ jobs:
     needs: analyze
 
     # Define steps to build and run the Docker container
+    steps:
+      - name: checkout
+        uses: actions/checkout@v5
+
+      - name: build image
+        run: docker build -t go-web-server .
+
+      - name: run container
+        run: docker run -d -p 8080:8080 go-web-server
